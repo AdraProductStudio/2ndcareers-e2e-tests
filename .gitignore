@@ -1,0 +1,7 @@
+node_modules/
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+
+# Real test-account credentials - never commit these.
+cypress/fixtures/credentials.json

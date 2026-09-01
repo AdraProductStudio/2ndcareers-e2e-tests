@@ -1,0 +1,18 @@
+{
+  "name": "2ndcareers-e2e-tests",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cypress end-to-end automation suite for the 2nd Careers frontend, consumed as a git submodule.",
+  "scripts": {
+    "start-app": "npm --prefix .. run local",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run --browser chrome",
+    "cy:run:headed": "cypress run --browser chrome --headed --no-exit",
+    "test": "node scripts/with-app.js cy:run",
+    "test:open": "node scripts/with-app.js cy:open",
+    "test:headed": "node scripts/with-app.js cy:run:headed"
+  },
+  "devDependencies": {
+    "cypress": "^14.0.0"
+  }
+}
