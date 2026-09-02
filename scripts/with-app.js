@@ -42,8 +42,14 @@ async function waitForServer(url, timeoutMs) {
 }
 
 function runNpmScript(script, options) {
+  // Node >=18.20.2/20.12.2/21.7.3 refuses to spawn .cmd/.bat files directly
+  // without shell: true (CVE-2024-27980) - npm.cmd needs it on Windows.
   const command = isWindows() ? "npm.cmd" : "npm";
-  return spawn(command, ["run", script], { stdio: "inherit", ...options });
+  // Editors/tools that host an Electron process (e.g. VS Code) can leak
+  // ELECTRON_RUN_AS_NODE=1 into this process's env, which makes Cypress's
+  // bundled Electron binary boot as plain Node instead of launching Chrome.
+  const { ELECTRON_RUN_AS_NODE, ...env } = { ...process.env, ...options?.env };
+  return spawn(command, ["run", script], { stdio: "inherit", shell: isWindows(), ...options, env });
 }
 
 function killTree(child) {
